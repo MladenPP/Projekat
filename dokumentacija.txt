@@ -1,0 +1,70 @@
+-- DOKUMENTACIJA PROJEKTA --
+
+- Preduslovi:
+- JDK 21 instaliran i podešen (JAVA_HOME)
+- Maven instaliran (ako pokrećete iz terminala)
+- Instaliran Docker
+- Baza pokrenuta (//docker-compose up -d// u terminalu otvorenom u root direktorijumu projekta)
+
+- Za pristup bazi preko terminala //docker exec -it mariadb_dostava mariadb -u app_user -p dostava// app_pass
+
+- Ideja : Aplikacija za narucivanje hrane sa tri nivoa pristupa
+- ADMIN - upravlja korisnickim profilima (GUEST-ovima)
+- MANAGER - upravlja restoranima i itemima koje restorani nude
+- GUEST - korisnik (prijavljen), pravi ordere (porucuje)
+
+- Obavezni elementi projekta
+- REST API ✅
+- Baza podataka ✅
+- Grupe korisnika ✅
+- Prijava,Registracija,Zaboravljena lozinka ✅ (AUTH-CONTROLLER)
+- Unos,Izmena,Brisanje podataka ✅
+- Pretrazivanje podataka ✅ (RESTAURANT-CONTROLLER)
+- Paginacija,Sortiranje,Filtriranje ✅ (RESTAURANT-CONTROLLER)
+- Swagger ✅
+- Logovanje ✅ (u logs direktorijumu)
+- Automatski testovi ✅ (za controller-e)
+
+- Pokretanje aplikacije
+- Otvorite projekat u IntelliJ IDEA.
+- Pokrenite main() u ProjekatApplication.java
+- Swagger UI: http://localhost:8080/swagger-ui/index.html
+- Log in credentials
+- username : admin
+- password : admin.123
+
+
+-- FUNKCIONALNOSTI --
+
+-AUTH-CONTROLLER-
+-PUT id - koristi ga admin za update-ovanje rola i statusa
+-POST register - registracija(prijavljeni korisnik moze praviti profil kako bi mu u startu dao rolu,
+ali moze dati rolu samo do svoje role ( admin -> admin,manager,guest| manager-> manager,guest...))
+-POST login - login
+-POST password reset (daje korisniku prijavu na nalog pa on iz user/put/id moze da stavi novu lozinku,
+kasnije se moze implementirati da url sa tokenom za prijavu dobije na e-mail)
+
+-USER-CONTROLLER-
+GET id - profile, korisnik pregleda svoj profil
+PUT id - profile edit,promeni svoj profil(ni admin ne moze da menja tudj profil)
+DELETE id - korisnik brise svoj profil(ako je admin moze da brise i druge)
+PUT change-password- promena lozinke na klasican nacin
+GET- admin vidi sve profile (korisnik dobija samo svoj profil kao odgovor)
+
+-RESTAURANT-CONTROLLER-
+-ovaj kontroler zapravo kontrolise i restorane i iteme,
+jer su itemi zapravo deo nekog restorana
+PUT,POST,DELETE - menadzeri uredjuju restorane i iteme,dodaju,menjanju,brisu(samo manager ima pristup)
+GET- vraca sve iteme i restorane (cak i ako korisnik nije prijavljen)
+GET/search - pretraga sa paginacijom,filtriranjem, sortiranjem
+
+-ORDER-CONTROLLER-
+-POST - porucivanje ( bilo koji prijavljeni korisnik)
+-DELETE - brisanje porudzbine (moze samo manager, ideja je da korisnik ne moze sam da obrise neku
+porudzbinu, vec kontaktira korisnicku podrsku...)
+-GET all - vraca sve porudzbine (GUEST vidi samo svoje porudzbine, admin i manager mogu da vide sve)
+
+
+
+
+

@@ -1,0 +1,13 @@
+package com.example.Projekat.db.repository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.Projekat.db.entity.RestaurantEntity;
+
+public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Long> {
+    boolean existsByName(String name);
+    Page<RestaurantEntity> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+}
+
